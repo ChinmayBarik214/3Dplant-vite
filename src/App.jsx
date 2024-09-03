@@ -1,4 +1,4 @@
-import { Vector3, HemisphericLight, MeshBuilder, ArcRotateCamera, SceneLoader } from '@babylonjs/core';
+import { Vector3, HemisphericLight, MeshBuilder, ArcRotateCamera, SceneLoader, StandardMaterial, CubeTexture, Texture, Color3 } from '@babylonjs/core';
 import SceneComponent from 'babylonjs-hook';
 import "@babylonjs/loaders/glTF";
 import './App.css'
@@ -9,6 +9,15 @@ const onSceneReady = scene => {
   camera.attachControl(canvas, true);
   camera.position = new Vector3(100, 100, 0);
   const light = new HemisphericLight("light", new Vector3(0, 1, 0), scene);
+  var skybox = MeshBuilder.CreateBox("skyBox", { size: 1000 }, scene);
+  var skyboxMaterial = new StandardMaterial("skyBox", scene);
+  skyboxMaterial.backFaceCulling = false;
+  skyboxMaterial.reflectionTexture = new CubeTexture("https://raw.githubusercontent.com/ChinmayBarik214/MeshesLibrary/main/textures/skybox", scene);
+  skyboxMaterial.reflectionTexture.coordinatesMode = Texture.SKYBOX_MODE;
+  skyboxMaterial.diffuseColor = new Color3(0, 0, 0);
+  skyboxMaterial.specularColor = new Color3(0, 0, 0);
+  skybox.material = skyboxMaterial;
+
 
   // const box = MeshBuilder.CreateBox("box", {}, scene);
   SceneLoader.ImportMesh("", "https://raw.githubusercontent.com/ChinmayBarik214/MeshesLibrary/main/", "plant.glb", scene, function (newMeshes) {

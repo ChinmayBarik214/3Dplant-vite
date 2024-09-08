@@ -12,18 +12,26 @@ const onSceneReady = scene => {
   var skybox = MeshBuilder.CreateBox("skyBox", { size: 1000 }, scene);
   var skyboxMaterial = new StandardMaterial("skyBox", scene);
   skyboxMaterial.backFaceCulling = false;
-  skyboxMaterial.reflectionTexture = new CubeTexture("https://raw.githubusercontent.com/ChinmayBarik214/MeshesLibrary/main/textures/skybox", scene);
+  skyboxMaterial.reflectionTexture = new CubeTexture("https://raw.githubusercontent.com/ChinmayBarik214/MeshesLibrary/main/skybox/skybox", scene);
   skyboxMaterial.reflectionTexture.coordinatesMode = Texture.SKYBOX_MODE;
   skyboxMaterial.diffuseColor = new Color3(0, 0, 0);
   skyboxMaterial.specularColor = new Color3(0, 0, 0);
   skybox.material = skyboxMaterial;
 
+  // ground
+  const groundMat = new StandardMaterial("groundMat");
+  groundMat.diffuseTexture = new Texture("https://raw.githubusercontent.com/ChinmayBarik214/MeshesLibrary/main/textures/grass.jpg");
+  const ground = MeshBuilder.CreateGround("ground",
+    { width: 150, height: 150 }); 
+  ground.material = groundMat;
 
   // const box = MeshBuilder.CreateBox("box", {}, scene);
   SceneLoader.ImportMesh("", "https://raw.githubusercontent.com/ChinmayBarik214/MeshesLibrary/main/", "plant.glb", scene, function (newMeshes) {
     camera.target = newMeshes[0];
     newMeshes[0].scaling = new Vector3(0.5, 0.5, 0.5);
+    newMeshes[0].position.x = -3;
   });
+  console.log(scene.meshes)
 }
 
 // Will run on every frame render.
